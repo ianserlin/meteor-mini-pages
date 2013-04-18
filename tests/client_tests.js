@@ -62,6 +62,16 @@ Tinytest.add('MeteorExtensions', withCleanup(function (test) {
   var router = Meteor.pages(myPages, { autoRender: false, defaults: defaults });
   test.isFalse(router.isRendered());
   test.equal(router.defaults, defaults);
+
+  /* test Meteor.currentPage() */
+  var pageDictionary = { firstKey: 'test1' };
+  test.instanceOf(Meteor.currentPage, Function);
+  Meteor.currentPage(pageDictionary);
+  test.equal(Meteor.router.invocation(), pageDictionary);
+  test.equal(Meteor.currentPage(), pageDictionary);
+  Meteor.currentPage('secondKey', 'test2');
+  test.equal(Meteor.currentPage('firstKey'), 'test1');
+  test.equal(Meteor.currentPage('secondKey'), 'test2');
 }));
 
 Tinytest.add('PageRouter.PageInvocation', withCleanup(function (test) {
